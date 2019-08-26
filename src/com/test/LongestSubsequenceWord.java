@@ -1,5 +1,7 @@
 package com.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class LongestSubsequenceWord {
 
 	
@@ -7,44 +9,38 @@ public class LongestSubsequenceWord {
 		String S = "abppplee";
 		String[] D = {"able", "ale", "apple", "bale", "kangaroo"};
 		
-		System.out.println(find(S,D));
+		assertEquals("apple", find(S,D));
+		
 	}
 	
 	
 	public static String find (String S, String[] D) {
 		
-		int indexSubsequenceFound = -1;
-		for (int i=0;i<D.length;i++) {
-			char[] dCharArray = D[i].toCharArray();
+		String subsequence = "";
+		
+		for (String dWord : D) {
 			
 			int fromIndex = -1;
-			for (int j=0;j<dCharArray.length;j++) {
+			int indexOf = -1;
+			
+			for (char dLetter : dWord.toCharArray()) {
 				
-				char dLetter = dCharArray[j];
-				fromIndex = S.indexOf(dLetter, fromIndex + 1);
+				indexOf = S.indexOf(dLetter, fromIndex + 1);
 				
-				if (fromIndex == -1) {
+				if (indexOf == -1) {
 					break;
-				}
+				} else {
+					fromIndex = indexOf;
+				}	
 			}
 			
-			if (fromIndex != -1) {	
-				if (indexSubsequenceFound == -1) {
-					indexSubsequenceFound = i;
-				} else {
-					if (D[i].length() >= D[indexSubsequenceFound].length()) {
-						indexSubsequenceFound = i;
-					}
-				}
-			}			
+			if (indexOf != -1) {
+				subsequence = dWord.length() > subsequence.length() ? dWord : subsequence;
+			}
 		}
 		
-		String subsequenceFound = "";
-		if (indexSubsequenceFound != -1) {
-			subsequenceFound = D[indexSubsequenceFound];
-		}
 		
-		return subsequenceFound;
+		return subsequence;
 	}
 
 }
